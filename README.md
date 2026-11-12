@@ -3,15 +3,17 @@
 Static academic profile page for GitHub Pages, served at
 `https://fedlucchetti.github.io/` once published.
 
-Single-file site (`index.html`): markup and CSS, no JavaScript and no build
-step. It follows the system light/dark setting.
+Single-file site (`index.html`): markup, CSS and a small script for the
+Expertise pop-ups, with no build step. It follows the system light/dark setting.
 
 ## Structure
 
 - `index.html` — the whole site: sidebar profile with links, then About,
-  Experience & education, Publications and Software.
+  Expertise, Experience & education, Publications and Software.
 - `images/profile.jpg` — profile photo (500 × 600, cropped from the lab-site
   headshot).
+- `images/expertise/` — the four Expertise thumbnails, also shown at the top of
+  each pop-up.
 
 ## Updating
 
@@ -20,6 +22,11 @@ step. It follows the system light/dark setting.
   When a preprint is published, move it to "Journal articles" and swap in the
   journal DOI. The list was assembled from ORCID, Crossref and arXiv in
   November 2026.
+- **Expertise**: each card is a `<button class="topic" data-topic="…">`. Its
+  pop-up text lives in the matching `<template id="topic-…">`, and the
+  template's `data-pubs` lists the ids of the `<li>` entries from
+  `#publications` to feature. Every publication `<li>` has an id for this. Each
+  pop-up has its own address, e.g. `#expertise/metabolic-connectomics`.
 - **Footer**: update "Last updated" when you change the content.
 
 ## Publishing to GitHub Pages

@@ -97,6 +97,47 @@
     padding:4px 11px; border-radius:999px;
   }
 
+  /* ---------- expertise ---------- */
+  .topics{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  .topic{
+    display:flex; flex-direction:column; justify-content:flex-start;
+    width:100%; padding:0; text-align:left; cursor:pointer;
+    font:inherit; color:inherit; background:var(--surface);
+    border:1px solid var(--line); transition:border-color .15s ease, transform .15s ease;
+  }
+  .topic:hover{border-color:var(--accent); transform:translateY(-2px);}
+  .topic .thumb{display:block; aspect-ratio:16/10; overflow:hidden; background:#0b0d12; border-bottom:1px solid var(--line);}
+  .topic .thumb.light{background:#fff;}
+  .topic .thumb img{width:100%; height:100%; object-fit:cover;}
+  .topic .thumb.light img{object-fit:contain; padding:8px;}
+  .topic-name{display:block; padding:12px 16px; font-family:'Source Serif 4', Georgia, serif; font-weight:600; font-size:17px;}
+  .topic:hover .topic-name{color:var(--accent);}
+
+  body:has(.topic-dialog[open]){overflow:hidden;}
+  .topic-dialog{
+    width:min(720px, calc(100% - 32px)); max-height:calc(100% - 48px);
+    margin:auto; padding:0; color:var(--text);
+    background:var(--bg); border:1px solid var(--line);
+  }
+  .topic-dialog::backdrop{background:rgba(8,10,14,0.6); backdrop-filter:blur(2px);}
+  .topic-dialog .hero{display:block; background:#0b0d12; border-bottom:1px solid var(--line);}
+  .topic-dialog .hero.light{background:#fff;}
+  .topic-dialog .hero img{width:100%; max-height:300px; object-fit:contain;}
+  .topic-dialog .body{padding:26px 32px 30px;}
+  .topic-dialog h2{font-size:26px; margin-bottom:14px;}
+  .topic-dialog h2:focus{outline:none;}
+  .topic-dialog .body p{color:var(--text-dim); margin-bottom:12px;}
+  .topic-dialog .related{font-size:14px;}
+  .topic-dialog h3{font-family:'Inter', sans-serif; font-size:12.5px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--text-faint); margin:22px 0 6px;}
+  .topic-dialog .pubs li{padding:10px 0;}
+  .topic-dialog .pubs li:first-child{padding-top:4px;}
+  .dialog-close{
+    position:absolute; top:10px; right:10px; width:38px; height:38px;
+    background:var(--bg); border:1px solid var(--line); border-radius:50%;
+    color:var(--text-dim); font-size:22px; line-height:1; cursor:pointer;
+  }
+  .dialog-close:hover{color:var(--accent); border-color:var(--accent);}
+
   .timeline{list-style:none;}
   .timeline li{display:grid; grid-template-columns:110px minmax(0,1fr); gap:20px; padding:10px 0;}
   .timeline .when{color:var(--text-faint); font-size:13.5px; font-variant-numeric:tabular-nums; padding-top:2px; align-self:start;}
@@ -134,6 +175,9 @@
     .profile h1{margin-top:0; font-size:23px;}
     .links{grid-column:1 / -1;}
     .tools{grid-template-columns:1fr;}
+    .topics{gap:12px;}
+    .topic-name{font-size:15px; padding:10px 12px;}
+    .topic-dialog .body{padding:22px 18px 24px;}
     .timeline li{grid-template-columns:104px minmax(0,1fr); gap:12px;}
     .timeline .when{font-size:12.5px; white-space:nowrap;}
   }
@@ -161,6 +205,7 @@
   <main>
     <nav class="sections" aria-label="Sections">
       <a href="#about">About</a>
+      <a href="#expertise">Expertise</a>
       <a href="#experience">Experience &amp; education</a>
       <a href="#publications">Publications</a>
       <a href="#software">Software</a>
@@ -181,6 +226,49 @@
       </ul>
     </section>
 
+    <section id="expertise">
+      <h2>Expertise</h2>
+      <div class="topics">
+        <button class="topic" type="button" data-topic="metabolic-connectomics" aria-haspopup="dialog">
+          <span class="thumb"><img src="images/expertise/metabolic-connectomics.jpg" alt="" width="610" height="527" loading="lazy" decoding="async"></span>
+          <span class="topic-name">Metabolic Connectomics</span>
+        </button>
+        <button class="topic" type="button" data-topic="resilient-computing" aria-haspopup="dialog">
+          <span class="thumb"><img src="images/expertise/resilient-computing.jpg" alt="" width="800" height="684" loading="lazy" decoding="async"></span>
+          <span class="topic-name">Resilient Computing</span>
+        </button>
+        <button class="topic" type="button" data-topic="evoked-potentials" aria-haspopup="dialog">
+          <span class="thumb light"><img src="images/expertise/evoked-potentials.jpg" alt="" width="900" height="599" loading="lazy" decoding="async"></span>
+          <span class="topic-name">Evoked Potentials</span>
+        </button>
+        <button class="topic" type="button" data-topic="neuroimaging-pipelines" aria-haspopup="dialog">
+          <span class="thumb light"><img src="images/expertise/neuroimaging-pipelines.jpg" alt="" width="1400" height="747" loading="lazy" decoding="async"></span>
+          <span class="topic-name">Neuroimaging Pipelines</span>
+        </button>
+      </div>
+
+      <!-- Pop-up content for each topic. data-pubs lists ids from #publications. -->
+      <template id="topic-metabolic-connectomics" data-pubs="pub-ncomms-2025 pre-connectomics-2026" data-image-alt="Metabolic connectome rendered inside a translucent brain">
+        <p>Whole-brain proton MRSI maps the concentration of several metabolites across the entire brain. By measuring how metabolite profiles covary between brain regions within a single person, I build metabolic similarity matrices, the brain's <em>metabolic connectome</em>.</p>
+        <p>This work characterizes how the brain's biochemical organization relates to cytoarchitecture and gene co-expression, and how its network structure and gradients are disrupted in young people at risk for psychosis.</p>
+        <p class="related">Software: <a href="https://github.com/MRSI-Psychosis-UP/MRSI-Metabolic-Connectome" target="_blank" rel="noopener">MRSI Metabolic Connectome</a> · <a href="https://github.com/MRSI-Psychosis-UP/DONALD" target="_blank" rel="noopener">DONALD</a></p>
+      </template>
+      <template id="topic-resilient-computing" data-pubs="pub-fcomp-2023 pre-covfedavg-2026 pre-fedgmc-2022" data-image-alt="Simulated street scene with autonomous vehicles exchanging information">
+        <p>As a postdoctoral researcher at the Interdisciplinary Centre for Security, Reliability and Trust (SnT), University of Luxembourg, I worked on keeping autonomous and distributed systems dependable when parts of them fail.</p>
+        <p>This included integrating resilience mechanisms into the Apollo autonomous-driving software stack, cooperative takeover manoeuvres between autonomous vehicles in simulation, and federated learning methods that remain robust when clients hold very different (non-IID) data.</p>
+      </template>
+      <template id="topic-evoked-potentials" data-pubs="pub-jasa-2018 pub-heares-2021 pub-ejn-2018 pub-cbm-2019" data-image-alt="Illustration of an auditory stimulus, the evoked neural response and a neuron">
+        <p>My PhD at the Université libre de Bruxelles studied hearing loss through auditory brainstem responses, in particular the frequency-following response (FFR) and the envelope-following response.</p>
+        <p>I developed signal-processing methods that isolate the individual FFR components and transfer-function models that locate their subcortical generators, and contributed to EEG work on modelling and automatically detecting epileptic seizures.</p>
+        <p class="related">Software: <a href="https://github.com/fedlucchetti/FFR-Toolkit" target="_blank" rel="noopener">FFR-Toolkit</a></p>
+      </template>
+      <template id="topic-neuroimaging-pipelines" data-pubs="pre-mrsiprep-2026 pub-imag-2026 pre-sexdiff-2026 pre-hormones-2026" data-image-alt="MRSIPrep pipeline schematic with anatomical and MRSI preprocessing branches">
+        <p>Whole-brain MRSI produces many metabolite maps per subject that must be cleaned, corrected and aligned to anatomy before any group analysis. MRSIPrep standardizes this post-quantification preprocessing.</p>
+        <p>Its steps include spike filtering, partial-volume, point-spread-function and metabolite T<sub>1</sub> correction, registration to the T<sub>1</sub>-weighted image and to template space, uncertainty propagation and quality-control reports. The pipeline underlies the cohort studies listed below.</p>
+        <p class="related">Software: <a href="https://mrsiprep.readthedocs.io/en/stable/" target="_blank" rel="noopener">MRSIPrep documentation</a> · <a href="https://github.com/MRSI-Psychosis-UP/MRSIPrep" target="_blank" rel="noopener">GitHub</a></p>
+      </template>
+    </section>
+
     <section id="experience">
       <h2>Experience &amp; education</h2>
       <ul class="timeline">
@@ -197,37 +285,37 @@
 
       <h3>Journal articles</h3>
       <ul class="pubs">
-        <li>
+        <li id="pub-imag-2026">
           <div class="ptitle"><a href="https://doi.org/10.1162/imag.a.1276" target="_blank" rel="noopener">High-resolution whole-brain magnetic resonance spectroscopic imaging in youth at risk for psychosis</a></div>
           <div class="authors">Edgar Céléreau, <b>Federico Lucchetti</b>, Yasser Alemán-Gómez, Daniella Dwir, Martine Cleusix, Jean-Baptiste Ledoux, Raoul Jenni, Caroline Conchon, Meritxell Bach Cuadra, Zoé Schilliger, et al.</div>
           <div class="venue"><i>Imaging Neuroscience</i>, 2026<a href="https://doi.org/10.1162/imag.a.1276" target="_blank" rel="noopener">DOI</a></div>
         </li>
-        <li>
+        <li id="pub-ncomms-2025">
           <div class="ptitle"><a href="https://doi.org/10.1038/s41467-025-66124-w" target="_blank" rel="noopener">Constructing the human brain metabolic connectome with MR spectroscopic imaging reveals cerebral biochemical organization</a></div>
           <div class="authors"><b>Federico Lucchetti</b>, Edgar Céléreau, Pascal Steullet, Yasser Alemán-Gómez, Patric Hagmann, Antoine Klauser, Paul Klauser</div>
           <div class="venue"><i>Nature Communications</i>, 2025<a href="https://doi.org/10.1038/s41467-025-66124-w" target="_blank" rel="noopener">DOI</a></div>
         </li>
-        <li>
+        <li id="pub-fcomp-2023">
           <div class="ptitle"><a href="https://doi.org/10.3389/fcomp.2023.1125055" target="_blank" rel="noopener">Toward resilient autonomous driving — An experience report on integrating resilience mechanisms into the Apollo autonomous driving software stack</a></div>
           <div class="authors"><b>Federico Lucchetti</b>, Rafal Graczyk, Marcus Völp</div>
           <div class="venue"><i>Frontiers in Computer Science</i>, 2023<a href="https://doi.org/10.3389/fcomp.2023.1125055" target="_blank" rel="noopener">DOI</a></div>
         </li>
-        <li>
+        <li id="pub-heares-2021">
           <div class="ptitle"><a href="https://doi.org/10.1016/j.heares.2020.108157" target="_blank" rel="noopener">Subcortical neural generators of the envelope-following response in sleeping children: A transfer function analysis</a></div>
           <div class="authors"><b>Federico Lucchetti</b>, Antoine Nonclercq, Paul Avan, Fabrice Giraudet, Xiaoya Fan, Paul Deltenre</div>
           <div class="venue"><i>Hearing Research</i>, 2021<a href="https://doi.org/10.1016/j.heares.2020.108157" target="_blank" rel="noopener">DOI</a></div>
         </li>
-        <li>
+        <li id="pub-cbm-2019">
           <div class="ptitle"><a href="https://doi.org/10.1016/j.compbiomed.2019.02.005" target="_blank" rel="noopener">Automated epileptic seizure detection based on break of excitation/inhibition balance</a></div>
           <div class="authors">Xiaoya Fan, Nicolas Gaspard, Benjamin Legros, <b>Federico Lucchetti</b>, Rudy Ercek, Antoine Nonclercq</div>
           <div class="venue"><i>Computers in Biology and Medicine</i>, 2019<a href="https://doi.org/10.1016/j.compbiomed.2019.02.005" target="_blank" rel="noopener">DOI</a></div>
         </li>
-        <li>
+        <li id="pub-jasa-2018">
           <div class="ptitle"><a href="https://doi.org/10.1121/1.5063821" target="_blank" rel="noopener">Generalization of the primary tone phase variation method: An exclusive way of isolating the frequency-following response components</a></div>
           <div class="authors"><b>Federico Lucchetti</b>, Paul Deltenre, Paul Avan, Fabrice Giraudet, Xiaoya Fan, Antoine Nonclercq</div>
           <div class="venue"><i>The Journal of the Acoustical Society of America</i>, 2018<a href="https://doi.org/10.1121/1.5063821" target="_blank" rel="noopener">DOI</a></div>
         </li>
-        <li>
+        <li id="pub-ejn-2018">
           <div class="ptitle"><a href="https://doi.org/10.1111/ejn.14142" target="_blank" rel="noopener">Seizure evolution can be characterized as path through synaptic gain space of a neural mass model</a></div>
           <div class="authors">Xiaoya Fan, Nicolas Gaspard, Benjamin Legros, <b>Federico Lucchetti</b>, Rudy Ercek, Antoine Nonclercq</div>
           <div class="venue"><i>European Journal of Neuroscience</i>, 2018<a href="https://doi.org/10.1111/ejn.14142" target="_blank" rel="noopener">DOI</a></div>
@@ -236,32 +324,32 @@
 
       <h3>Preprints</h3>
       <ul class="pubs">
-        <li>
+        <li id="pre-connectomics-2026">
           <div class="ptitle"><a href="https://doi.org/10.64898/2026.11.09.765372" target="_blank" rel="noopener">Whole-brain MRSI metabolic connectomics reveals network disruptions and altered gradient coherence in psychosis risk</a></div>
           <div class="authors"><b>Federico Lucchetti</b>, Edgar Céléreau, Raoul Jenni, Teya Petrova, Lilith Abrahamyan, Philippe Conus, Patric Hagmann, Yasser Alemán-Gómez, Antoine Klauser, Paul Klauser</div>
           <div class="venue"><i>bioRxiv</i>, 2026<a href="https://doi.org/10.64898/2026.11.09.765372" target="_blank" rel="noopener">DOI</a></div>
         </li>
-        <li>
+        <li id="pre-covfedavg-2026">
           <div class="ptitle"><a href="https://arxiv.org/abs/2610.39902" target="_blank" rel="noopener">CovFedAvg: Local low-loss curves and federated model selection</a></div>
           <div class="authors"><b>Federico Lucchetti</b>, Marcus Völp</div>
           <div class="venue"><i>arXiv</i>, 2026<a href="https://arxiv.org/abs/2610.39902" target="_blank" rel="noopener">arXiv:2610.39902</a></div>
         </li>
-        <li>
+        <li id="pre-mrsiprep-2026">
           <div class="ptitle"><a href="https://doi.org/10.64898/2026.09.11.750896" target="_blank" rel="noopener">MRSIPrep: A standardized post-quantification framework for preprocessing whole-brain magnetic resonance spectroscopic imaging</a></div>
           <div class="authors"><b>Federico Lucchetti</b>, Edgar Céléreau, Raoul Jenni, Jean-Baptiste Ledoux, Stephan Eliez, Farnaz Delavari, Patric Hagmann, Yasser Alemán-Gómez, Antoine Klauser, Paul Klauser</div>
           <div class="venue"><i>bioRxiv</i>, 2026<a href="https://doi.org/10.64898/2026.09.11.750896" target="_blank" rel="noopener">DOI</a></div>
         </li>
-        <li>
+        <li id="pre-hormones-2026">
           <div class="ptitle"><a href="https://doi.org/10.64898/2026.09.07.749851" target="_blank" rel="noopener">Mapping sex-specific hormone–metabolite coupling in the adolescent brain: a longitudinal whole-brain spectroscopic imaging study</a></div>
           <div class="authors">Edgar Céléreau, <b>Federico Lucchetti</b>, Zoé Schilliger, Yasser Alemán-Gómez, Patric Hagmann, Philippe Conus, Arnaud Merglen, Camille Piguet, Antoine Klauser, Daniella Dwir, Paul Klauser</div>
           <div class="venue"><i>bioRxiv</i>, 2026<a href="https://doi.org/10.64898/2026.09.07.749851" target="_blank" rel="noopener">DOI</a></div>
         </li>
-        <li>
+        <li id="pre-sexdiff-2026">
           <div class="ptitle"><a href="https://doi.org/10.64898/2026.06.30.735476" target="_blank" rel="noopener">Sex differences in brain metabolism assessed with whole-brain magnetic resonance spectroscopic imaging</a></div>
           <div class="authors">Edgar Céléreau, <b>Federico Lucchetti</b>, Pascal Steullet, Zoé Schilliger, Yasser Alemán-Gómez, Raoul Jenni, Teya Petrova, Silas Forrer, Farnaz Delavari, Jean-Baptiste Ledoux, et al.</div>
           <div class="venue"><i>bioRxiv</i>, 2026<a href="https://doi.org/10.64898/2026.06.30.735476" target="_blank" rel="noopener">DOI</a></div>
         </li>
-        <li>
+        <li id="pre-fedgmc-2022">
           <div class="ptitle"><a href="https://arxiv.org/abs/2204.11017" target="_blank" rel="noopener">Federated geometric Monte Carlo clustering to counter non-IID datasets</a></div>
           <div class="authors"><b>Federico Lucchetti</b>, Jérémie Decouchant, Maria Fernandes, Lydia Y. Chen, Marcus Völp</div>
           <div class="venue"><i>arXiv</i>, 2022<a href="https://arxiv.org/abs/2204.11017" target="_blank" rel="noopener">arXiv:2204.11017</a></div>
@@ -302,6 +390,75 @@
   </footer>
 
 </div>
+
+<dialog class="topic-dialog" id="topicDialog" aria-labelledby="topicTitle">
+  <button class="dialog-close" id="topicClose" type="button" aria-label="Close">×</button>
+  <div class="hero" id="topicHero"></div>
+  <div class="body">
+    <h2 id="topicTitle" tabindex="-1" autofocus></h2>
+    <div id="topicText"></div>
+    <h3>Featured publications</h3>
+    <ul class="pubs" id="topicPubs"></ul>
+  </div>
+</dialog>
+
+<script>
+  // Expertise pop-ups: each card opens #expertise/<topic>; the text comes from
+  // <template id="topic-…"> and the publications are cloned from #publications.
+  const dialog = document.getElementById('topicDialog');
+  const topics = new Map([...document.querySelectorAll('.topic')].map(card => [card.dataset.topic, card]));
+  let openedHere = false;
+
+  topics.forEach((card, slug) => card.addEventListener('click', () => {
+    openedHere = true;
+    location.hash = `expertise/${slug}`;
+  }));
+
+  function fillTopic(card) {
+    const template = document.getElementById(`topic-${card.dataset.topic}`);
+    const thumb = card.querySelector('.thumb');
+    const hero = document.getElementById('topicHero');
+    const img = document.createElement('img');
+    img.src = thumb.querySelector('img').src;
+    img.alt = template.dataset.imageAlt;
+    hero.className = thumb.className.replace('thumb', 'hero');
+    hero.replaceChildren(img);
+    document.getElementById('topicTitle').textContent = card.querySelector('.topic-name').textContent;
+    document.getElementById('topicText').replaceChildren(template.content.cloneNode(true));
+    document.getElementById('topicPubs').replaceChildren(...template.dataset.pubs.split(' ')
+      .map(id => document.getElementById(id)?.cloneNode(true))
+      .filter(Boolean)
+      .map(li => { li.removeAttribute('id'); return li; }));
+  }
+
+  function syncTopic() {
+    const match = location.hash.match(/^#expertise\/(.+)$/);
+    const card = match && topics.get(match[1]);
+    if (card) {
+      fillTopic(card);
+      if (!dialog.open) dialog.showModal();
+      dialog.scrollTop = 0;
+    } else if (dialog.open) {
+      dialog.close();
+    }
+  }
+
+  // Back button closes the pop-up; closing it drops the topic from the URL.
+  dialog.addEventListener('close', () => {
+    const wasOpenedHere = openedHere;
+    openedHere = false;
+    if (!location.hash.startsWith('#expertise/')) return;
+    if (wasOpenedHere) history.back();
+    else history.replaceState(null, '', '#expertise');
+  });
+  document.getElementById('topicClose').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+  window.addEventListener('hashchange', syncTopic);
+  if (location.hash.startsWith('#expertise/')) {
+    document.getElementById('expertise').scrollIntoView();
+    syncTopic();
+  }
+</script>
 
 </body>
 </html>
